@@ -3,7 +3,10 @@ import api from "../Api/Api";
 export default class Chat {
   constructor(nicname) {
     this.nicname = nicname.name;
-    this.dbNicknames = [
+    this.dbNicknames = null;
+    this.dbMesseges = null;
+
+    /* this.dbNicknames = [
       { name: "Денис" },
       { name: "DanGreen" },
       { name: "Hammer" },
@@ -20,19 +23,28 @@ export default class Chat {
       { name: "Reiter", data: "09.10.2021", messege: "Супер" },
       { name: "Reiter", data: "09.10.2021", messege: "Супер" },
       { name: "Reiter", data: "09.10.2021", messege: "Супер" },
-    ];
+    ]; */
 
     this.formationChat();
     this.requestMessageNicname();
     this.fieldOutputForm = document.querySelector('.field-output__form');
     this.submittingForm = this.submittingForm.bind(this);
+    this.deletingUser = this.deletingUser.bind(this);
     this.fieldOutputForm.addEventListener('submit', this.submittingForm);
+    window.addEventListener("unload", this.deletingUser);
+  }
+
+  async deletingUser() {
+    const data = {name: this.nicname};
+    await api.subscriptions.delete(data);
   }
 
   async requestMessageNicname() {
-    console.log("запрос имен и сообщений");
+    this.dbNicknames = await api.massedge.receiveNic();
+    this.dbMesseges = await api.massedge.receiveMas();
     this.formationChatMessages(this.dbMesseges);
-    this.formationNicknames(this.dbNicknames)
+    this.formationNicknames(this.dbNicknames);
+    
   }
 
   async submittingForm(e) {

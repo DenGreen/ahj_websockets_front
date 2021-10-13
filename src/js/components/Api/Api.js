@@ -4,11 +4,13 @@ class Api {
   
       this.subscriptions = {
         add: (data) => this.post('/subscriptions/add', data),
-        delete: (phone) => this.delete(`/subscriptions/delete/${phone}`),
+        delete: (data) => this.delete('/subscriptions/delete', data),
       };
 
       this.massedge = {
         add: (data) => this.post('/massedge/add', data),
+        receiveMas: () => this.get('/massedge/receive'),
+        receiveNic: () => this.get('/nicname/receive'),
       };
     }
   
@@ -35,9 +37,21 @@ class Api {
       });
     }
   
-    async delete(url) {
+    async delete(url, postData) {
       return this.api(url, {
-        method: 'delete',
+        method: 'post',
+        body: JSON.stringify(postData),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        keepalive: true,
+      });
+    }
+
+    async get(url) {
+      return this.api(url, {
+        method: 'get',
         headers: {
           Accept: 'application/json',
         },
