@@ -1,37 +1,20 @@
 import api from "../Api/Api";
+import apiWs from "../Api/ApiWs";
 
 export default class Chat {
   constructor(nicname) {
     this.nicname = nicname.name;
     this.dbNicknames = null;
     this.dbMesseges = null;
-
-    /* this.dbNicknames = [
-      { name: "Денис" },
-      { name: "DanGreen" },
-      { name: "Hammer" },
-      { name: "Reiter" },
-    ];
-    this.dbMesseges = [
-      { name: "Денис", data: "09.10.2021", messege: "Привет ребята!" },
-      { name: "Reiter", data: "09.10.2021", messege: "Супер" },
-      { name: "DanGreen", data: "09.10.2021", messege: "Как дела!" },
-      { name: "Hammer", data: "09.10.2021", messege: "хорошо!" },
-      { name: "Reiter", data: "09.10.2021", messege: "Супер" },
-      { name: "Денис", data: "09.10.2021", messege: "У вас как?" },
-      { name: "Reiter", data: "09.10.2021", messege: "Супер" },
-      { name: "Reiter", data: "09.10.2021", messege: "Супер" },
-      { name: "Reiter", data: "09.10.2021", messege: "Супер" },
-      { name: "Reiter", data: "09.10.2021", messege: "Супер" },
-    ]; */
-
     this.formationChat();
     this.requestMessageNicname();
     this.fieldOutputForm = document.querySelector('.field-output__form');
     this.submittingForm = this.submittingForm.bind(this);
     this.deletingUser = this.deletingUser.bind(this);
+    this.formationChatMessages = this.formationChatMessages.bind(this);
     this.fieldOutputForm.addEventListener('submit', this.submittingForm);
     window.addEventListener("unload", this.deletingUser);
+    apiWs.wsEventMassage(this.formationChatMessages);
   }
 
   async deletingUser() {
@@ -47,13 +30,14 @@ export default class Chat {
     
   }
 
-  async submittingForm(e) {
+  submittingForm(e) {
     e.preventDefault();
     const data = {};
     data.name = this.nicname;
     data.messege = this.fieldOutputForm.elements[0].value;
     this.fieldOutputForm.elements[0].value = '';
-    this.formationChatMessages([await api.massedge.add(data)]);
+    apiWs.massedgeAdd(data);
+    // this.formationChatMessages([await api.massedge.add(data)]);
   }
 
   formationChat() {
