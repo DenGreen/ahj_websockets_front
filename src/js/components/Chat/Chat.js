@@ -12,9 +12,13 @@ export default class Chat {
     this.submittingForm = this.submittingForm.bind(this);
     this.deletingUser = this.deletingUser.bind(this);
     this.formationChatMessages = this.formationChatMessages.bind(this);
+    this.formationNicknames = this.formationNicknames.bind(this);
     this.fieldOutputForm.addEventListener('submit', this.submittingForm);
     window.addEventListener("unload", this.deletingUser);
-    apiWs.wsEventMassage(this.formationChatMessages);
+    apiWs.wsEventMassage(this.formationChatMessages, this.formationNicknames);
+    setInterval(() => {
+      this.checkDeleting();
+    }, 2000);
   }
 
   async deletingUser() {
@@ -23,11 +27,13 @@ export default class Chat {
   }
 
   async requestMessageNicname() {
-    this.dbNicknames = await api.massedge.receiveNic();
+    apiWs.nicnameReceive();
     this.dbMesseges = await api.massedge.receiveMas();
     this.formationChatMessages(this.dbMesseges);
-    this.formationNicknames(this.dbNicknames);
-    
+  }
+
+  checkDeleting() {
+    apiWs.nicnameReceive();
   }
 
   submittingForm(e) {
@@ -65,7 +71,7 @@ export default class Chat {
 
   formationNicknames(dbNicknames) {
     const chatUsers = document.querySelector(".chat__users");
-
+    chatUsers.innerHTML = '';
     dbNicknames.forEach((value) => {
         if (value.name == this.nicname) {
           chatUsers.insertAdjacentHTML(

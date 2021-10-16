@@ -1,5 +1,6 @@
 import api from '../Api/Api';
 import Chat from '../Chat/Chat';
+import apiWs from "../Api/ApiWs";
 
 export default class Subscribe {
   constructor(element) {
