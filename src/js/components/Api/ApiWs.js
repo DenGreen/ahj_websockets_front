@@ -1,6 +1,6 @@
 class ApiWs {
   constructor() {
-    this.ws = new WebSocket("ws://websockets-dz.herokuapp.com//ws");
+    this.ws = new WebSocket("ws://websockets-dz.herokuapp.com/ws");
   }
 
   massedgeAdd(data) {
