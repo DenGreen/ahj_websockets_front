@@ -59,6 +59,6 @@ class Api {
     }
   }
   
-  const api = new Api('https://websockets-dz.herokuapp.com/');
+  const api = new Api('https://websockets-dz.herokuapp.com');
   
   export default api;
