@@ -10,30 +10,16 @@ export default class Chat {
     this.requestMessageNicname();
     this.fieldOutputForm = document.querySelector('.field-output__form');
     this.submittingForm = this.submittingForm.bind(this);
-    this.deletingUser = this.deletingUser.bind(this);
     this.formationChatMessages = this.formationChatMessages.bind(this);
     this.formationNicknames = this.formationNicknames.bind(this);
     this.fieldOutputForm.addEventListener('submit', this.submittingForm);
-    window.addEventListener("unload", this.deletingUser);
     apiWs.wsEventMassage(this.formationChatMessages, this.formationNicknames);
-    setInterval(() => {
-      this.checkDeleting();
-    }, 2000);
-  }
-
-  async deletingUser() {
-    const data = {name: this.nicname};
-    await api.subscriptions.delete(data);
   }
 
   async requestMessageNicname() {
     apiWs.nicnameReceive();
     this.dbMesseges = await api.massedge.receiveMas();
     this.formationChatMessages(this.dbMesseges);
-  }
-
-  checkDeleting() {
-    apiWs.nicnameReceive();
   }
 
   submittingForm(e) {
@@ -43,7 +29,6 @@ export default class Chat {
     data.messege = this.fieldOutputForm.elements[0].value;
     this.fieldOutputForm.elements[0].value = '';
     apiWs.massedgeAdd(data);
-    // this.formationChatMessages([await api.massedge.add(data)]);
   }
 
   formationChat() {

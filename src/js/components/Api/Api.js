@@ -3,8 +3,7 @@ class Api {
       this.baseUrl = baseUrl;
   
       this.subscriptions = {
-        add: (data) => this.post('/subscriptions/add', data),
-        delete: (data) => this.delete('/subscriptions/delete', data),
+        add: (data) => this.post('/subscriptions/add', data)
       };
 
       this.massedge = {
@@ -36,18 +35,6 @@ class Api {
         },
       });
     }
-  
-    async delete(url, postData) {
-      return this.api(url, {
-        method: 'post',
-        body: JSON.stringify(postData),
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-        keepalive: true,
-      });
-    }
 
     async get(url) {
       return this.api(url, {
@@ -59,6 +46,6 @@ class Api {
     }
   }
   
-  const api = new Api('http://localhost:7070');
+  const api = new Api('https://websockets-dz.herokuapp.com');
   
   export default api;

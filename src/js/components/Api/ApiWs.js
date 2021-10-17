@@ -1,6 +1,6 @@
 class ApiWs {
   constructor() {
-    this.ws = new WebSocket("ws://localhost:7070/ws");
+    this.ws = new WebSocket("wss://websockets-dz.herokuapp.com/ws");
   }
 
   massedgeAdd(data) {
@@ -34,6 +34,9 @@ class ApiWs {
           formationChatMessages(objData);
           return;
         case "nicnameReceive":
+          formationNicknames(objData);
+          return;
+        case "delete":
           formationNicknames(objData);
           return;
         default:
