@@ -46,6 +46,6 @@ class Api {
     }
   }
   
-  const api = new Api('https://websockets-dz.herokuapp.com');
+  const api = new Api('http://localhost:7070');
   
   export default api;

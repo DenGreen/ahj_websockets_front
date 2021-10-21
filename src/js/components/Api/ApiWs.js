@@ -1,6 +1,14 @@
 class ApiWs {
   constructor() {
-    this.ws = new WebSocket("wss://websockets-dz.herokuapp.com/ws");
+    this.ws = new WebSocket("ws://localhost:7070/ws");
+  }
+
+  nicnameAdd(data) {
+    const objData = {
+      method: "nicnameAdd",
+      data: data,
+    };
+    this.ws.send(JSON.stringify(objData));
   }
 
   massedgeAdd(data) {
