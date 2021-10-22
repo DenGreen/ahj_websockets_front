@@ -15,7 +15,7 @@ export default class Subscribe {
     this.element.addEventListener('submit', this.onSubscribe);
   }
 
- /*  async */ onSubscribe(e) {
+  async onSubscribe(e) {
     e.preventDefault();
 
     const data = {};
@@ -26,8 +26,8 @@ export default class Subscribe {
     });
 
     try {
+      await api.subscriptions.add(data);
       apiWs.nicnameAdd(data);
-      // await api.subscriptions.add(data);
       this.element.classList.add("--hidden");
       new Chat(data);
     } catch (error) {
