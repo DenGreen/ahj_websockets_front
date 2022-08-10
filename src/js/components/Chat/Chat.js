@@ -1,6 +1,6 @@
 import api from "../Api/Api";
 import apiWs from "../Api/ApiWs";
-
+import ic from "../../../img/ic.png"
 export default class Chat {
   constructor(nicname) {
     this.nicname = nicname.name;
@@ -46,7 +46,7 @@ export default class Chat {
           </div>
     
           <form class="field-output__form">
-            <input class="form__massege" name="massege">
+            <input class="form__massege" name="massege" maxlength="200">
             <button class="form__btn">Отправить</button>
           </form>
         </div>
@@ -62,8 +62,8 @@ export default class Chat {
           chatUsers.insertAdjacentHTML(
             "beforeend",
             `<div class="chat__user">
-                  <span class="chat__user-circle"></span>
-                  <span class="user__nickname --nickname-yau">You</span>
+                  <span class="chat__user-circle"><img src="${ic}"/></span>
+                  <span class="user__nickname --nickname-yau">Вы</span>
               </div>`
           );
           return;
@@ -72,7 +72,7 @@ export default class Chat {
         chatUsers.insertAdjacentHTML(
           "beforeend",
           `<div class="chat__user">
-                <span class="chat__user-circle"></span>
+                <span class="chat__user-circle"><img src="${ic}"/></span>
                 <span class="user__nickname">${value.name}</span>
             </div>`
         );
@@ -90,7 +90,7 @@ export default class Chat {
           "beforeend",
           `<div class="messages__massage --massage-flex-end">
                 <div class="massage__wrapper --massage-you">
-                    <span class="massage__nickname">You</span>
+                    <span class="massage__nickname">Вы</span>
                     <span class="massege__data">${value.data}</span>
                 </div>
                 <div class="massge">${value.messege}</div>
@@ -98,7 +98,7 @@ export default class Chat {
         );
         return;
       }
-
+      console.log(value)
       fieldOutputMessages.insertAdjacentHTML(
         "beforeend",
         `<div class="messages__massage">
